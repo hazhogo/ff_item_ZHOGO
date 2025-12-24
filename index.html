@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>ZHOGO Items Menu</title>
+  <style>
+    /* ===== عام ===== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1f1c2c, #928dab);
+      color: #fff;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #4CAF50;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+      font-size: 2.5em;
+    }
+
+    /* ===== زر القناة ===== */
+    .channel-btn {
+      padding: 10px 18px;
+      font-size: 16px;
+      margin-bottom: 30px;
+      cursor: pointer;
+      background-color: #FF1234;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      box-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+      transition: 0.3s;
+    }
+
+    .channel-btn:hover {
+      transform: scale(1.05);
+      background-color: #e10f2a;
+    }
+
+    /* ===== أزرار الفئات ===== */
+    .category-buttons {
+      margin-bottom: 30px;
+    }
+
+    .category-buttons button {
+      padding: 12px 20px;
+      margin: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 8px;
+      background: #4CAF50;
+      color: #fff;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+      transition: 0.2s;
+    }
+
+    .category-buttons button:hover {
+      transform: scale(1.05);
+      background: #45a049;
+    }
+
+    /* ===== شبكة العناصر ===== */
+    .items {
+      margin-top: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+      gap: 15px;
+      justify-items: center;
+    }
+
+    .item-box {
+      text-align: center;
+      transition: transform 0.2s;
+    }
+
+    .item-box img {
+      width: 90px;
+      height: 90px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .item-box img:hover {
+      transform: scale(1.1);
+      border-color: #4CAF50;
+    }
+
+    .item-id {
+      font-size: 13px;
+      margin-top: 5px;
+      color: #fff;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+      user-select: text;
+    }
+
+    /* ===== زر تحميل المزيد ===== */
+    #loadMore {
+      margin-top: 25px;
+      padding: 12px 25px;
+      background: #2196F3;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+
+    #loadMore:hover {
+      background: #1976D2;
+      transform: scale(1.05);
+    }
+
+  </style>
+</head>
+<body>
+  <!-- ===== العنوان ===== -->
+  <h1>ZHOGO</h1>
+
+  <!-- ===== زر القناة ===== -->
+  <a href="https://youtube.com/@zhog-o" target="_blank" class="channel-btn">
+    زيارة قناتي على يوتيوب
+  </a>
+
+  <!-- ===== أزرار الفئات ===== -->
+  <div class="category-buttons">
+    <button onclick="startEmotes()">🕺 الرقصات</button>
+    <button onclick="startClothes()">👕 الملابس</button>
+    <button onclick="startBundles()">🎁 Bundles</button>
+  </div>
+
+  <!-- ===== شبكة العناصر ===== -->
+  <div class="items" id="itemsContainer"></div>
+
+  <!-- ===== زر تحميل المزيد ===== -->
+  <button id="loadMore" onclick="loadMore()" style="display:none;">
+    عرض المزيد
+  </button>
+
+  <!-- ===== سكربت جافاسكريبت ===== -->
+  <script>
+    let currentId = 0;
+    let currentGroup = 0;
+    const initialLoad = 25;
+    const loadCount = 75;
+
+    // مجموعات الرقصات
+    const emoteGroups = [
+      {start: 909000001, end: 909000150},
+      {start: 909033001, end: 909033010},
+      {start: 909034001, end: 909034014}
+    ];
+
+    // ===== بدء فئة الرقصات =====
+    function startEmotes() {
+      currentGroup = 0;
+      currentId = emoteGroups[currentGroup].start;
+      resetItems();
+      loadInitial();
+    }
+
+    // ===== بدء فئة الملابس =====
+    function startClothes() {
+      currentId = 203000001;
+      resetItems();
+      loadInitial();
+    }
+
+    // ===== بدء فئة الباندلز =====
+    function startBundles() {
+      currentId = 700000001;
+      resetItems();
+      loadInitial();
+    }
+
+    // ===== إعادة ضبط العناصر =====
+    function resetItems() {
+      document.getElementById("itemsContainer").innerHTML = "";
+      document.getElementById("loadMore").style.display = "inline-block";
+    }
+
+    // ===== تحميل العناصر الأولية =====
+    function loadInitial() {
+      for (let i = 0; i < initialLoad; i++) {
+        addItem();
+      }
+    }
+
+    // ===== تحميل المزيد من العناصر =====
+    function loadMore() {
+      for (let i = 0; i < loadCount; i++) {
+        addItem();
+      }
+    }
+
+    // ===== إضافة عنصر واحد =====
+    function addItem() {
+      const container = document.getElementById("itemsContainer");
+
+      // التعامل مع الرقصات
+      if (currentGroup >= 0 && currentGroup < emoteGroups.length) {
+        const group = emoteGroups[currentGroup];
+
+        // التحقق من انتهاء المجموعة الحالية
+        if (currentId > group.end) {
+          currentGroup++;
+          if (currentGroup >= emoteGroups.length) return;
+          currentId = emoteGroups[currentGroup].start;
+        }
+      }
+
+      const itemId = currentId++;
+      const box = document.createElement("div");
+      box.className = "item-box";
+
+      const img = document.createElement("img");
+      img.src = `https://cdn.jsdelivr.net/gh/ShahGCreator/icon@main/PNG/${itemId}.png`;
+      img.alt = itemId;
+
+      const text = document.createElement("div");
+      text.className = "item-id";
+      text.innerText = itemId;
+
+      img.onerror = () => {
+        box.style.display = "none";
+      };
+
+      box.appendChild(img);
+      box.appendChild(text);
+      container.appendChild(box);
+    }
+  </script>
+</body>
+</html>
