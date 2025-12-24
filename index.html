@@ -16,13 +16,13 @@
       text-align: center;
       margin: 0;
       min-height: 100vh;
-      background: linear-gradient(135deg, #1f1c2c, #928dab);
+      background: linear-gradient(135deg, #111111, #353535);
       color: #fff;
       padding: 20px;
     }
 
     h1 {
-      color: #4CAF50;
+      color: #12ffaa;
       margin-bottom: 10px;
       text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
       font-size: 2.5em;
@@ -30,18 +30,40 @@
 
     /* ===== زر القناة ===== */
     .channel-btn {
-      padding: 10px 18px;
-      font-size: 16px;
-      margin-bottom: 30px;
-      cursor: pointer;
-      background-color: #FF1234;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      text-decoration: none;
-      box-shadow: 2px 2px 8px rgba(0,0,0,0.5);
-      transition: 0.3s;
-    }
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 10px 45px;
+  font-size: 22px;
+
+  cursor: pointer;
+  background-color: #ff0000; /* لون يوتيوب */
+  color: #fff;
+
+  border: none;
+  border-radius: 14px; /* شكل قريب من الصورة */
+  text-decoration: none;
+
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.5);
+  transition: 0.3s;
+
+  /* جعله على اليمين */
+  float: up;
+}
+
+/* تأثير عند المرور */
+.channel-btn:hover {
+  transform: scale(1.05);
+  background-color: #e60000;
+}
+
+/* أيقونة التشغيل */
+.channel-btn::before {
+  content: "▶";
+  font-size: 20px;
+  margin-left: 5px; /* لأننا في عربي */
+}
 
     .channel-btn:hover {
       transform: scale(1.05);
@@ -86,9 +108,9 @@
     }
 
     .item-box img {
-      width: 90px;
-      height: 90px;
-      border: 1px solid #ccc;
+      width: 100px;
+      height: 100px;
+      border: 2px solid #ccc;
       border-radius: 10px;
       box-shadow: 1px 1px 5px rgba(0,0,0,0.5);
       transition: transform 0.2s, border-color 0.2s;
@@ -96,7 +118,7 @@
 
     .item-box img:hover {
       transform: scale(1.1);
-      border-color: #4CAF50;
+      border-color: #22ff22;
     }
 
     .item-id {
@@ -130,18 +152,19 @@
 </head>
 <body>
   <!-- ===== العنوان ===== -->
-  <h1>ZHOGO</h1>
+  <h1>ZHOGO</h1><hr><h3>MY CHANEL</h3>
 
   <!-- ===== زر القناة ===== -->
   <a href="https://youtube.com/@zhog-o" target="_blank" class="channel-btn">
-    زيارة قناتي على يوتيوب
+    
   </a>
-
+  <h4 class="name-texe"></h4>
+  <div style="height: 40px;"></div>
   <!-- ===== أزرار الفئات ===== -->
   <div class="category-buttons">
-    <button onclick="startEmotes()">🕺 الرقصات</button>
-    <button onclick="startClothes()">👕 الملابس</button>
-    <button onclick="startBundles()">🎁 Bundles</button>
+    <button onclick="startEmotes()">EMOTE</button>
+    <button onclick="startClothes()">SKIN</button>
+    <button onclick="startBundles()"> Bundles</button>
   </div>
 
   <!-- ===== شبكة العناصر ===== -->
@@ -158,12 +181,30 @@
     let currentGroup = 0;
     const initialLoad = 25;
     const loadCount = 75;
+    let visibleItemsCount = 0;
 
     // مجموعات الرقصات
     const emoteGroups = [
       {start: 909000001, end: 909000150},
       {start: 909033001, end: 909033010},
-      {start: 909034001, end: 909034014}
+      {start: 909034001, end: 909034014},
+      {start: 909035001, end: 909035015},
+      {start: 909036001, end: 909036014},
+      {start: 909037001, end: 909037012},
+      {start: 909038001, end: 909038013},
+      {start: 909039001, end: 909039014},
+      {start: 909040001, end: 909040014},
+      {start: 909041001, end: 909041015},
+      {start: 909042001, end: 909042018},
+      {start: 909043001, end: 909043013},
+      {start: 909044001, end: 909044016},
+      {start: 909045001, end: 909045017},
+      {start: 909046001, end: 909046017},
+      {start: 909047001, end: 909047019},
+      {start: 909048001, end: 909048018},
+      {start: 909049001, end: 909049021},
+      {start: 909050002, end: 909050030},
+      {start: 909051002, end: 909051020}
     ];
 
     // ===== بدء فئة الرقصات =====
@@ -177,6 +218,7 @@
     // ===== بدء فئة الملابس =====
     function startClothes() {
       currentId = 203000001;
+      startBundles
       resetItems();
       loadInitial();
     }
@@ -190,60 +232,77 @@
 
     // ===== إعادة ضبط العناصر =====
     function resetItems() {
-      document.getElementById("itemsContainer").innerHTML = "";
-      document.getElementById("loadMore").style.display = "inline-block";
-    }
+  document.getElementById("itemsContainer").innerHTML = "";
+  document.getElementById("loadMore").style.display = "inline-block";
+  visibleItemsCount = 0;
+   }
 
     // ===== تحميل العناصر الأولية =====
     function loadInitial() {
-      for (let i = 0; i < initialLoad; i++) {
-        addItem();
-      }
-    }
+  visibleItemsCount = 0;
+  for (let i = 0; i < initialLoad; i++) {
+    addItem();
+  }
+  checkLoadMoreVisibility();
+}
 
-    // ===== تحميل المزيد من العناصر =====
-    function loadMore() {
-      for (let i = 0; i < loadCount; i++) {
-        addItem();
-      }
-    }
+function loadMore() {
+  visibleItemsCount = 0;
+  for (let i = 0; i < loadCount; i++) {
+    addItem();
+  }
+  checkLoadMoreVisibility();
+  }
 
     // ===== إضافة عنصر واحد =====
     function addItem() {
-      const container = document.getElementById("itemsContainer");
+  const container = document.getElementById("itemsContainer");
 
-      // التعامل مع الرقصات
-      if (currentGroup >= 0 && currentGroup < emoteGroups.length) {
-        const group = emoteGroups[currentGroup];
+  // التحقق من مجموعات الإيموت
+  if (currentGroup >= 0 && currentGroup < emoteGroups.length) {
+    const group = emoteGroups[currentGroup];
 
-        // التحقق من انتهاء المجموعة الحالية
-        if (currentId > group.end) {
-          currentGroup++;
-          if (currentGroup >= emoteGroups.length) return;
-          currentId = emoteGroups[currentGroup].start;
-        }
+    if (currentId > group.end) {
+      currentGroup++;
+      if (currentGroup >= emoteGroups.length) {
+        document.getElementById("loadMore").style.display = "none";
+        return;
       }
-
-      const itemId = currentId++;
-      const box = document.createElement("div");
-      box.className = "item-box";
-
-      const img = document.createElement("img");
-      img.src = `https://cdn.jsdelivr.net/gh/ShahGCreator/icon@main/PNG/${itemId}.png`;
-      img.alt = itemId;
-
-      const text = document.createElement("div");
-      text.className = "item-id";
-      text.innerText = itemId;
-
-      img.onerror = () => {
-        box.style.display = "none";
-      };
-
-      box.appendChild(img);
-      box.appendChild(text);
-      container.appendChild(box);
+      currentId = emoteGroups[currentGroup].start;
     }
+  }
+
+  const itemId = currentId++;
+  const box = document.createElement("div");
+  box.className = "item-box";
+
+  const img = document.createElement("img");
+  img.src = `https://cdn.jsdelivr.net/gh/ShahGCreator/icon@main/PNG/${itemId}.png`;
+  img.alt = itemId;
+
+  const text = document.createElement("div");
+  text.className = "item-id";
+  text.innerText = itemId;
+
+  img.onload = () => {
+    visibleItemsCount++;
+  };
+
+  img.onerror = () => {
+    box.remove();
+  };
+
+  box.appendChild(img);
+  box.appendChild(text);
+  container.appendChild(box);
+  }
+  function checkLoadMoreVisibility() {
+  setTimeout(() => {
+    if (visibleItemsCount === 0) {
+      document.getElementById("loadMore").style.display = "none";
+    }
+  }, 500);
+}
   </script>
 </body>
 </html>
